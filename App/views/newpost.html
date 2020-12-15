@@ -1,0 +1,175 @@
+<html>
+
+<head>
+    <title>New Post!</title>
+    <link rel='stylesheet' href='stylesheets/global.css'>
+</head>
+
+<div id="app">
+
+    <div class="layout-header">
+        <div class="layout-body">
+            <div class="topper">
+                <a href="index">
+                    <h1 class="topper__title">State Exchange</h1>
+                </a>
+                <form class="topper__form" action="search" v-bind:style="{ borderRadius: this.radius + 'px'}">
+                    <div class="topper__form--button-select" v-on:click.prevent="changeSelectState"><img
+                            src="/images/icons/arrow-down.png"></div>
+                    <input type="text" placeholder="Search" class="topper__form--input" v-model="query">
+                    <button type="submit" class="topper__form--button-go"><img src="images/icons/arrow.png"></button>
+                    <div class="topper__form--select" v-if="select">
+                        <input type="radio" class="topper__form--select-radio" id="electronics">
+                        <label for="electronics" class="topper__form--select-label">Electronics</label>
+
+                        <input type="radio" class="topper__form--select-radio" id="textbooks">
+                        <label for="textbooks" class="topper__form--select-label">Textbooks</label>
+
+                        <input type="radio" class="topper__form--select-radio" id="other">
+                        <label for="other" class="topper__form--select-label">Other</label>
+                    </div>
+                </form>
+                <div class="topper__links">
+                    <a href="login" class="topper__links--login" v-if="isLoggedin === false">Login</a>
+                    <a href="register" class="topper__links--signup" v-if="isLoggedin === false">Signup</a>
+                    <a href="#" v-on:click="logout()" class="topper__links" v-if="isLoggedin === true">Signout</a>
+                </div>
+                <div class="nav--burger">
+                    <div class="burger-line"></div>
+                    <div class="burger-line"></div>
+                    <div class="burger-line"></div>
+                </div>
+                <div class="nav">
+                    <a href="index" class="nav__item">Home</a>
+                    <a href="about" class="nav__item">About</a>
+                    <!-- <a href="#" class="nav__item">For Sale</a> -->
+                    <a href="newpost" class="nav__item" v-if="isLoggedin === true">New Post</a>
+                    <a href="dashboard" class="nav__item" v-if="isLoggedin === true">Dashboard</a>
+                    <a href="manage-post" class="nav__item">Manage post</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout-body">
+        <h1>Create a New Post</h1>
+        <form class="form">
+            <label for="title" class="form__label">Title</label>
+            <input v-model='formData.title' id="title" type="input" class="title form__input">
+
+            <label class="form__image--input" for="addImage">Add Image</label>
+            <input accept="image/*" id="addImage" type="file"></input>
+
+            <label for="desc" class="form__label">Description</label>
+            <textarea v-model='formData.desc' class="desc form__textarea" form="newpost"></textarea>
+
+            <!--TODO: Pull list of categories from database-->
+            <label class="form__label">Category</label>
+            <select v-model='formData.categorySelected' class="form__select">
+                <option v-for='category in categories'>{{ category }}</option>
+                <!--
+                <option>Category 1</option>
+                <option>Category 2</option>
+                <option>Category 3</option>
+                <option>Category 4</option>
+                -->
+            </select>
+
+            <label for="price" class="form__label ">Price</label>
+            <input v-model='formData.price' type="number" class="form__input">
+
+            <div class="form__submit">
+                <button type="button" class="form__submit--cancel">Cancel</button>
+                <button v-on:click.prevent='sendData' type="submit" class="form__submit--post">Post</button>
+            </div>
+        </form>
+    </div>
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="javascripts/SearchResults.js"></script>
+<script>
+    function checkInp() {
+        var x = document.forms["myForm"]["age"].value;
+
+        if (isNaN(x)) {
+            alert("Must input numbers");
+            return false;
+        }
+    }
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            formData: {
+                title: '',
+                desc: '',
+                price: '',
+                categorySelected: 'Select Category'
+            },
+            categories: ['Select Category', 'Electronics', 'Books', 'Furniture', 'Toys'],
+            img: '',
+            query: '',
+            radius: 50,
+            select: false,
+            isLoggedin: false
+        },
+        methods: {
+            sendData: function () {
+                let id = Math.random() * 100;
+                Math.round(id);
+
+                axios.post(`/newpost/12`, this.formData)
+                .then(function (response) {
+                    console.log(response);
+                     if (res.data.status === 'success'){
+                        console.log("data was posted successfully")
+                    }
+                })
+                .catch(err => {
+                
+                    console.log("This error was caught trying to send data" + err);
+                })
+            },
+            changeSelectState: function () {
+                this.select = !this.select;
+                if (this.radius == 50) {
+                    this.radius = 20;
+                } else {
+                    this.radius = 50;
+                }
+            },
+
+            logout: function() {
+                
+                //alert("ji");
+                localStorage.removeItem("__token");
+                this.isLoggedin = false;
+            }
+        },
+        watch: {
+            query: function (newQuery, oldQuery) {
+                sessionStorage.setItem('query', newQuery);
+            }
+        },
+        mounted() {
+
+            if(localStorage.getItem("__token") != null) {
+                this.isLoggedin = true;
+                //alert("logged in");
+            } 
+
+
+            const sessionQuery = sessionStorage.getItem('query');
+            if (sessionQuery != null) {
+                this.query = sessionQuery;
+            }
+        }
+    })
+
+</script>
+
+</html>

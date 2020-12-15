@@ -1,0 +1,33 @@
+extends header
+
+block content
+    #app
+        .layout-body
+            h1 {{ user }}'s Dashboard
+            .dashboard__buttons
+                div(class="dashboard__buttons--posts" v-bind:class="{selected: postClicked}" v-on:click.prevent="postClick") Posts
+                div(class="dashboard__buttons--messages" v-bind:class="{selected: messageClicked}" v-on:click.prevent="messageClick") Messages
+
+            .dashboard__container
+                div(class="dashboard__posts" v-if="postClicked")
+                    .dashboard__post--descriptor
+                        p Name
+                        p Description
+                        p Catgegory
+                        p Price
+                        p Image
+                    div(class="dashboard__post" v-for="post in posts")
+                        p {{post.Name}}
+                        p {{post.Comment}}
+                        p {{post.Category}}
+                        p ${{post.Price}}
+                        a(v-bind:href="post.image_name") Image Link
+
+                div(class="dashboard__messages" v-if="messageClicked")
+                    div(class="dashboard__message" v-for="message in messages")
+                        p test
+
+
+    script(src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js")
+    script(src="https://unpkg.com/axios/dist/axios.min.js")
+    script(src="javascripts/vue/dashboard.js")

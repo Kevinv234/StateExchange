@@ -1,0 +1,140 @@
+/* 
+ *
+ *
+ *
+ *
+ *
+ *
+ *  Old code, only for the vertical prototype
+ *  THIS WILL BE DELETED
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.app{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.banner{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+
+    width: 100%;
+    height: 200px;
+    background: URL("../images/Banner-Purple.png");
+}
+
+h1{
+    font-size: 60px;
+    font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
+    color: white;
+}
+
+h2{
+    font-size: 50px;
+    font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
+    color: rgb(254,203,69);
+
+    margin: 0;
+    padding: 5px;
+    margin-top: 100px;
+}
+
+h3 {
+    font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
+    color: rgb(65,0,137);
+    padding: 0;
+    margin: 0;
+}
+
+p {
+    padding: 0;
+    margin: 0;
+    /* color: white; */
+}
+
+.search-query-input{
+    width: 300px;
+    height: 40px;
+    margin: 10px;
+    padding: 10px;
+
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(238, 238, 238);
+}
+input:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+button{
+    height: 40px;
+    padding: 10px;
+
+    border: none;
+    background-color: rgb(65,0,137);
+    border-radius: 5px;
+
+    color: white;
+}
+
+.list{
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 2px solid rgb(65,0,137);
+}
+
+.list-item{
+    display: flex;
+
+    margin: 5px;
+    margin-bottom: 12px;
+    padding: 5px;
+    width: 450px;
+    /* border-radius: 5px; */
+    border-bottom: 1px solid rgb(65,0,137);
+}
+
+.list-item img{
+    height: 46px;
+    margin-right: 15px;
+}
+
+.list-item-data-container{
+    width: 100%;
+}
+
+.list-item-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 5px;
+}
+
+.list-item-header p {
+    font-size: 20px;
+}
+
+.list-item-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}

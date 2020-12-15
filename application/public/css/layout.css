@@ -1,0 +1,10 @@
+/****************************************************************************
+This css file is used only for styling basic layout elemnts. It divides the page 
+into sections and holds modules together.
+*****************************************************************************/
+
+.layout__body{
+    width: 900px;
+    align-self: center;
+    padding: 10px;
+}

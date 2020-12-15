@@ -1,0 +1,126 @@
+<html>
+
+<head>
+    <title>State Exchange</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel='stylesheet' href='stylesheets/global.css'>
+</head>
+
+
+<div id="app">
+    
+    <div class="layout-body">
+        <h2>Manage Posts</h2>
+        <table class="table">
+            <tr v-for="post in posts">
+                <td>{{post.ID}}</td>
+                <td>{{post.Name}}</td>
+                <td>{{post.Category}}</td>
+                <td>{{post.Price}}</td>
+                <td class="buttons">
+                    <button v-on:click="status(post.ID,1)">Approve</button>
+                    <button v-on:click="status(post.ID,0)">Disapprove</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            posts: [],
+            query: "",
+            select: false,
+            radius: 50,
+            isLoggedin: false
+        },
+        methods: {
+            changeSelectState: function () {
+                this.select = !this.select;
+                if (this.radius == 50) {
+                    this.radius = 25;
+                } else {
+                    this.radius = 50;
+                }
+            },
+            trimComment: function (post) {
+                const length = 50;
+                let comment = post;
+                
+                if (post.length > length) {
+                    comment = post.substring(0, length) + "...";
+                }
+                
+                return comment;
+            },
+            trimTitle: function (post) {
+                const length = 15;
+                let title = post;
+                
+                if (post.length > length) {
+                    title = post.substring(0, length) + "...";
+                }
+                
+                return title;
+            },
+            logout: function () {
+                this.isLoggedin = false;
+            },
+
+            status: function(id,status) {
+            
+                if(localStorage.getItem("__token") != null) {
+                    const headers = {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem("__token")
+                            }
+
+                    axios.post('/post/setStatus',
+                                {id: id, status: status},
+                                {headers: headers})
+                    .then(res => {
+
+                        console.log(res);
+                        
+                    })
+
+                } else {
+                    alert("Please login first!")
+                }
+        }
+
+
+        },
+        watch: {
+            query: function (newQuery, oldQuery) {
+                sessionStorage.setItem('query', newQuery);
+            }
+        },
+        mounted() {
+            
+            //alert( localStorage.getItem("__token") + " --- " + this.isLoggedin );
+            if (localStorage.getItem("__token") != null) {
+                this.isLoggedin = true;
+            }
+            
+            const sessionQuery = sessionStorage.getItem('query');
+            if (sessionQuery != null) {
+                this.query = sessionQuery;
+            }
+            
+            axios.get('http://ec2-18-224-39-11.us-east-2.compute.amazonaws.com:3001/testmysql')
+            .then(res => {
+                this.posts = res.data;
+            })
+        }
+
+
+    });
+
+</script>
+</html>

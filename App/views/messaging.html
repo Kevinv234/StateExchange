@@ -1,0 +1,165 @@
+<!-- Assigned to : ImraN -->
+<html>
+
+<head>
+    <title>Messages</title>
+    <link rel='stylesheet' href='../../../stylesheets/global.css'>
+</head>
+
+<div id="app">
+
+    <div class="layout-body">
+        
+        <h1>#{{post.id}} {{post.title}} - ${{post.price}}</h1>
+        <h4>Posted By {{post.author}} on {{post.date_posted}}</h4>
+        <h2>Send Message</h2>
+
+        <textarea class="message__textarea" placeholder="Enter Message" v-model="new_message"></textarea>
+        <div class="form__submit">
+            <button v-on:click.prevent='sendData' type="submit" class="form__submit--post">Send</button>
+        </div>
+
+        <br/>
+        <h2>Previous Messages</h2>
+        <div v-for="message in messages">
+            <b>{{message.from}} &mdash; {{message.date}}</b>
+            <p>{{message.message}}</p>
+            <hr/>
+        </div>
+
+    </div>
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="javascripts/SearchResults.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            
+            post: {
+                photo: '',
+                title: '',
+                price: '',
+                date_posted: '',
+                author: ''
+            },
+
+            messages: [],
+            new_message: ''
+        },
+        methods: {
+            
+            sendData: function () {
+
+                if(this.new_message == "") return;
+
+                var url = window.location.href;
+                var split = url.split('/');
+               
+                const headers = {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem("__token")
+                            }
+
+
+                //'http://ec2-18-224-39-11.us-east-2.compute.amazonaws.com:3001/testmysql'
+                axios.post('http://ec2-18-224-39-11.us-east-2.compute.amazonaws.com:3000/messaging/store',
+                    {
+                        
+                        MessagesIndexID: split[split.length - 1],
+                        Message: this.new_message
+                    },
+                    {headers: headers}
+
+                    )
+                .then(function (response) {
+                    
+                    location.reload();
+                })
+                .catch(function (error) {
+                    
+                })
+                .finally(function () {
+                    // always executed
+                });
+              
+            },
+            changeSelectState: function () {
+                this.select = !this.select;
+                if (this.radius == 50) {
+                    this.radius = 20;
+                } else {
+                    this.radius = 50;
+                }
+            }
+        },
+        watch: {
+            query: function (newQuery, oldQuery) {
+                sessionStorage.setItem('query', newQuery);
+            }
+        },
+        mounted() {
+            const sessionQuery = sessionStorage.getItem('query');
+            if (sessionQuery != null) {
+                this.query = sessionQuery;
+            }
+
+            const headers = {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem("__token")
+                            }
+                var url = window.location.href;
+                var split = url.split('/');
+
+                 //######### fetch post details
+                 axios.get('http://127.0.0.1:3000/post/' + split[split.length - 2])
+                 .then(function (response) {
+
+                    console.log(response.data[0]);
+
+                    app.post.id = response.data[0]['ID'];
+                    //this.post.photo = response.data[0]['photo'];
+                    app.post.title = response.data[0]['Title'];
+                    app.post.price = response.data[0]['Price'];
+                    app.post.date_posted = response.data[0]['date_posted'].replace("T"," ").replace("Z","").replace(".000","");
+                    app.post.author = response.data[0]['name'];
+                 })
+                 .catch(function (error) {
+                    
+                 })
+                 .finally(function () {
+                    // always executed
+                 });
+              
+                 //######### fetch previous messages
+                 axios.post('http://127.0.0.1:3000/messaging/index',
+                            {MessagesIndexID: split[split.length - 1] },
+                            {headers: headers})
+                 .then(function (response) {
+
+                    for(looper = 0;looper < response.data.length; looper++) {
+
+                        var msg = {};
+                        msg.from = response.data[looper].name;
+                        msg.message = response.data[looper].Message;
+                        msg.date = response.data[looper].Timestamp.replace("T"," ").replace("Z","").replace(".000","");
+                        app.messages.push(msg);
+                    }
+
+                 })
+                 .catch(function (error) {
+                    
+                 })
+                 .finally(function () {
+                    // always executed
+                 });
+
+        }
+    })
+</script>
+
+</html>

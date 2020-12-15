@@ -1,0 +1,19 @@
+extends header
+
+block content
+    #app
+        .layout-body
+            h2 Manage Posts
+            table.table
+                tr(v-for="post in posts")
+                    td {{post.ID}}
+                    td {{post.Name}}
+                    td {{post.Category}}
+                    td {{post.Price}}
+                    td.buttons
+                        button(v-on:click="status(post.ID,1)") Approve
+                        button(v-on:click="status(post.ID,0)") Disapprove
+
+    script(src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js")
+    script(src="https://unpkg.com/axios/dist/axios.min.js")
+    script(src="javascripts/vue/managePost.js")

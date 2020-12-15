@@ -1,0 +1,24 @@
+extends header
+
+block content
+    #app
+        .layout-body
+            h1 {{post.title}} - ${{post.price}}
+            h4 Posted By {{post.author}} on {{post.date_posted}}
+            h2 Send Message
+
+            textarea(class="message__textarea" placeholder="Enter Message" v-model="new_message")
+            .form__submit
+                button(v-on:click.prevent='sendData' type="submit" class="form__submit--post") Send
+
+            br
+
+            h2 Previous Messages
+            div(v-for="message in messages")
+                b {{message.from}} &mdash; {{message.date}}
+                p {{message.message}}
+                hr
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    script(src="javascripts/vue/messaging.js")

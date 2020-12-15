@@ -1,0 +1,25 @@
+extends header
+
+block content
+    #app
+        .layout-body
+            .disclaimer
+                p SFSU Software Engineering Project CSC 648-848 | Fall 2019 | For Demonstration Only
+
+        .container
+            h1.card-title Post Detail
+            .row
+                .col-lg-12
+                    .card mt-4
+                        img(class="card-img-top img-fluid" v-bind:src="'/' + post.image" alt="")
+                        .card-body
+                            h3.card-title {{post.name}}
+                            h3.card-title Category: {{post.categroy}}
+                            h2.card-title {{post.price}} $
+                            p.card-text {{post.comment}}
+
+
+    script(src="/bootstrap/4.4.1/js/bootstrap.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js")
+    script(src="https://unpkg.com/axios/dist/axios.min.js")
+    script(src="javascripts/vue/detail.js")

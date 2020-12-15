@@ -1,0 +1,187 @@
+<!-- Assigned to : ImraN -->
+<html>
+
+<head>
+    <title>Register</title>
+    <link rel='stylesheet' href='stylesheets/global.css'>
+</head>
+
+<div id="app">
+
+    <div class="layout-header">
+        <div class="layout-body">
+            <div class="topper">
+                <a href="index">
+                    <h1 class="topper__title">State Exchange</h1>
+                </a>
+                <form class="topper__form" action="search" v-bind:style="{ borderRadius: this.radius + 'px'}">
+                    <div class="topper__form--button-select" v-on:click.prevent="changeSelectState"><img
+                            src="/images/icons/arrow-down.png"></div>
+                    <input type="text" placeholder="Search" class="topper__form--input" v-model="query">
+                    <button type="submit" class="topper__form--button-go"><img src="images/icons/arrow.png"></button>
+                    <div class="topper__form--select" v-if="select">
+                        <input type="radio" class="topper__form--select-radio" id="electronics">
+                        <label for="electronics" class="topper__form--select-label">Electronics</label>
+
+                        <input type="radio" class="topper__form--select-radio" id="textbooks">
+                        <label for="textbooks" class="topper__form--select-label">Textbooks</label>
+
+                        <input type="radio" class="topper__form--select-radio" id="other">
+                        <label for="other" class="topper__form--select-label">Other</label>
+                    </div>
+                </form>
+                <div class="topper__links">
+                    <a href="login" class="topper__links--login">Login</a>
+                    <!-- <a href="#" class="topper__links--signup">Signup</a> -->
+                </div>
+                <div class="nav--burger">
+                    <div class="burger-line"></div>
+                    <div class="burger-line"></div>
+                    <div class="burger-line"></div>
+                </div>
+                <div class="nav">
+                    <a href="index" class="nav__item">Home</a>
+                    <a href="about" class="nav__item">About</a>
+                    <!-- <a href="#" class="nav__item">For Sale</a> -->
+                    <a href="newpost" class="nav__item">New Post</a>
+                    <a href="dashboard" class="nav__item">Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout-body">
+        <h1>Signup</h1>
+        <form class="form signin" v-if="isRegistered === false">
+            <label for="name" class="form__label">Name</label>
+            <input v-model='name' type="input" class="title form__input">
+            <label for="email" class="form__label">Email</label>
+            <input v-model='email' type="input" class="title form__input">
+            <label for="password" class="form__label">Password</label>
+            <input v-model='password' type="password" class="title form__input">
+            <label for="confirm_password" class="form__label">Confirm Password</label>
+            <input v-model='confirm_password' type="password" class="title form__input">
+
+            <div class="form__submit">
+                <button type="button" class="form__submit--cancel">Cancel</button> 
+                <button v-on:click.prevent='sendData' type="submit" class="form__submit--post">Signup</button>
+            </div>
+            
+            <div class="form__label" style="color: red;">{{message}}</div>
+            <!-- <button v-on:click.prevent='sendData' type="submit" class="form__submit--post">Submit</button> -->
+        
+        </form>
+        <div v-if="isRegistered === true">Registration successfull. <a href="login" style="color: blue;">Click here to login</a></div>
+    </div>
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="javascripts/SearchResults.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            name: '',
+            email: '',
+            password: '',
+            confirm_password: '',
+            message: '',
+            isRegistered: false
+    
+        },
+        methods: {
+            sendData: function () {
+
+                app.message = "";
+                //validation
+                if(this.name == "") {
+
+                    app.message = app.message + "Name cannot be left blank";
+                    return;
+                   
+                }
+
+                if(this.email == "") {
+
+                    app.message = app.message + "Email cannot be left blank";
+                    return;
+                  
+                }
+
+                if(this.password == "") { 
+
+                    app.message = app.message + "Password cannot be left blank";
+                    return;
+                    
+                }
+
+                if(this.password != this.confirm_password) {
+
+                    app.message = app.message + "Password does not match";
+                    return;
+                }
+
+              
+
+                //ec2-18-224-39-11.us-east-2.compute.amazonaws.com:3001/testmysql
+                axios.post('http://ec2-18-224-39-11.us-east-2.compute.amazonaws.com:3000/users/register',
+                    {
+                        name: this.name,
+                        email: this.email,
+                        password: this.password,
+                        confirm_password: this.confirm_password
+                    }
+                )
+                .then(function (response) {
+                    // handle success
+                    console.log(response.data);
+                    if(response.data.status == "error") {
+                        
+                        app.message = response.data.message;
+                    } else {
+                        app.isRegistered = true;
+                    }
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+                .finally(function () {
+                    // always executed
+                });
+
+                //console.log(formData);
+            },
+            changeSelectState: function () {
+                this.select = !this.select;
+                if (this.radius == 50) {
+                    this.radius = 20;
+                } else {
+                    this.radius = 50;
+                }
+            },
+            logout: function() {
+                
+                //alert("ji");
+                localStorage.removeItem("__token");
+                this.isLoggedin = false;
+            }
+        },
+        watch: {
+            query: function (newQuery, oldQuery) {
+                sessionStorage.setItem('query', newQuery);
+            }
+        },
+        mounted() {
+            const sessionQuery = sessionStorage.getItem('query');
+            if (sessionQuery != null) {
+                this.query = sessionQuery;
+            }
+        }
+    })
+</script>
+
+</html>

@@ -1,0 +1,45 @@
+extends header
+
+block content
+    #app
+        .layout-body
+            h1 ABOUT THE DEVS
+            .dev
+                a(href="about/roderic")
+                    .dev__card
+                        img(class="dev__card--img" src='images/profile_pics/roderic.png')
+                        h3.dev__card--title Roderic Kong
+                        p.dev__card--body Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris feugiat nec quam sed condimentum. Phasellus.
+
+                a(href="about/chris")
+                    .dev__card
+                        img(class="dev__card--img" src='images/profile_pics/chris.jpg')
+                        h3.dev__card--title Chris Jol
+                        p.dev__card--body Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris feugiat nec quam sed
+
+                a(href="#")
+                    .dev__card
+                        img(class="dev__card--img" src='images/icons/user-black.png')
+                        h3.dev__card--title Kevin Venegas
+                        p.dev__card--body Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris feugiat nec quam sed condimentum. Phasellus.
+
+                a(href="about/deep")
+                    .dev__card
+                        img(class="dev__card--img" src='images/icons/user-black.png')
+                        h3.dev__card--title Deep Bhuler
+                        p.dev__card--body Lorem ipsum dolor sit amet
+
+                a(href="#")
+                    .dev__card
+                        img(class="dev__card--img" src='images/icons/user-black.png')
+                        h3.dev__card--title Imran
+                        p.dev__card--body Consectetur adipiscing elit. Mauris feugiat nec quam sed condimentum. Phasellus.
+
+                a(href="#")
+                    .dev__card
+                        img(class="dev__card--img" src='images/icons/user-black.png')
+                        h3.dev__card--title Abubaker
+                        p.dev__card--body Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris feugiat nec quam sed condimentum. Phasellus.
+
+    script(src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js")
+    script(src="https://unpkg.com/axios/dist/axios.min.js")

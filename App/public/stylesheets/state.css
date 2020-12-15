@@ -1,0 +1,144 @@
+/****************************************************************************
+Styles for modules in different circumstances. Ex: how a module or layout
+looks on screens that are smaller or larger, or how a module might look in 
+different views, color variations, etc.
+*****************************************************************************/
+
+@media only screen and (max-width: 1330px){
+    /*--------------------------------------------------------------------SLIDER--*/
+    .slider__post{
+        width: 200px;
+    }
+}
+
+@media only screen and (max-width: 1125px){
+    /*-------------------------------------------------------------POP_CATEGORIES--*/
+    .pop__category-container{
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .topper__title{
+        font-size: 30px;
+    }
+    
+}
+
+@media only screen and (max-width: 910px){
+    /*---------------------------------------------------------------------TOPPER--*/
+    .topper{
+        grid-template-columns: auto auto;
+        grid-template-areas:
+            'title title'
+            'form links'
+        ;
+        padding-top: 5px;
+    }
+
+    .topper__title{
+        font-size: 40px;
+    }
+
+    .topper__links{
+        justify-content: flex-start;
+    }
+    .topper__links--login,
+    .topper__links--signup,
+    .topper__links--logout{
+        display: none;
+    }
+
+    /*-------------------------------------------------------------POP_CATEGORIES--*/
+    .pop__category-container{
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /*--------------------------------------------------------------------SLIDER--*/
+    .slider__post{
+        width: 235px;
+    }
+
+    .nav--burger{
+        align-self: center;
+        height: auto;
+        width: auto;
+    }
+
+    .burger-auth--links{
+        display: flex;
+    }
+}
+
+@media only screen and (max-width: 800px){
+
+    /*--------------------------------------------------------------------SLIDER--*/
+    .slider__post{
+        width: 200px;
+    }
+}
+
+@media only screen and (max-width: 695px){
+
+    .shadow{
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+    /*---------------------------------------------------------------------TOPPER--*/
+    .topper{
+        grid-template-columns: 1fr;
+        align-items: center;
+        grid-template-areas:
+            'title'
+            'form'
+            'links'
+        ;
+    }
+    
+    .topper__title{
+        font-size: 50px;
+        text-align: center;
+    }
+
+    .topper__links{
+        justify-content: center;
+    }
+
+    .topper__form{
+        max-width: 100%;
+    }
+
+    .burger-menu{
+        position: static;
+        padding: 0;
+        border: 3px solid var(--yellow);
+    }
+
+    .burger-menu a:hover{
+        background-color: var(--yellow);
+        color: white;
+    }
+
+    .form__image--select-container{
+        flex-direction: column;
+    }
+
+    .form__image-select{
+        margin:0 0 20px 0;
+    }
+
+    /*-------------------------------------------------------------POP_CATEGORIES--*/
+    .pop__category-container{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media only screen and (max-width: 480px){
+    .slider__post{
+        width: 235px;
+    }
+
+    /*-------------------------------------------------------------POP_CATEGORIES--*/
+    .pop__category-container{
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,50 @@
+extends header
+
+block content
+    #app
+        .layout-form
+            h1 Create a New Post
+            form(id="new-post" class="form" enctype="multipart/form-data" action="/newpost" method="post")
+                .form__devider
+                    label(for="title" class="form__label") Title
+                    p.form__descriptor Use words people would search for when looking for your item
+                    input(name="title" v-model='formData.title' id="title" type="input" class="title form__input")
+
+                .form__devider
+                    label(for="addImage" class="form__label") Add a photo
+                    p.form__descriptor Improve your buyer’s confidence by including as many as possible.
+                    .form__image--select-container
+                        .form__image-select
+                            input(name="photo" form="new-post" type="file" accept="image/*" id="addImage" @change="filesChange($event.target.files)" class="form__image--input")
+                            p.form__image--text Drag your file(s) here to upload
+                                br 
+                                .
+                                    or click to browse
+
+                        .form__image--container
+                            div(class="form__image" v-for="path in photoFilePaths")
+                                img(v-bind:src="path")
+                            .form__image--default
+                                img(src="images/icons/plus-yellow.png")
+
+                .form__devider
+                    label.form__label Details
+                    p.form__descriptor Select a category for your item
+                    select(name="category" v-model='formData.category' class="form__select")
+                        option(selected disabled) Category
+                        option(v-for='category in categories') {{ category }}
+                    .form__descriptor Set an amount that buyers can purchase your item for
+                    input(name="price" v-model='formData.price' class="form__input--price")
+
+                .form__devider
+                    label(for="desc" class="form__label") Description
+                    p.form__descriptor Tell buyers about unique features, flaws, or why you are selling it!
+                    textarea(name="description" v-model='formData.desc' class="desc form__textarea" form="new-post")
+
+                .form__devider--submit
+                    button(type="button" class="form__submit--cancel") Cancel
+                    button(type="submit" class="form__submit--post") Post
+
+    script(src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js")
+    script(src="https://unpkg.com/axios/dist/axios.min.js")
+    script(src="javascripts/vue/newPost.js")

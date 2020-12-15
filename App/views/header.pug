@@ -1,0 +1,41 @@
+head
+    title State Exchange
+    meta(name="viewport" content="width=device-width")
+    link(rel='stylesheet' href='stylesheets/global.css')
+
+#header
+    .layout-header
+            .layout-body
+                .topper
+                    a(href="index")
+                        h1.topper__title State Exchange
+                    form(class="topper__form" action="search" v-bind:style="{ borderRadius: this.radius + 'px'}")
+                        div(class="topper__form--button-select" v-on:click="changeSelectState")
+                            p.selected__category {{selectedCategory}}
+                            img(src = "images/icons/arrow-down.png")
+                            .div(class="topper__form--categories shadow" v-if="select")
+                                div(class="category" v-on:click="selected") All
+                                div(class = "category" v-for="category in categories" v-on:click="selected") {{category}}
+                        input(type="text" placeholder="Search" class="topper__form--input" v-model="query")
+                        button(type="submit" class="topper__form--button-go")
+                            img(src="images/icons/arrow.png")
+
+                    div.topper__links
+                        a(href="login" class="topper__links--login" v-if="isLoggedin == false") Login
+                        a(href="register" class="topper__links--signup"  v-if="isLoggedin == false") Signup
+                        a(v-on:click="logout" class="topper__links--logout" v-if="isLoggedin == true") Logout
+                        div(class="nav--burger" v-on:click="changeMenuState")
+                            .burger-line
+                            .burger-line
+                            .burger-line
+                            div(class="burger-menu shadow" v-if="menu")
+                                a(href="/newpost") New Post
+                                a(href="/dashboard") Dashboard
+                                .burger-auth--links
+                                    a(v-on:click="logout" v-if="isLoggedin") Logout
+                                    a(href="login" v-if="isLoggedin == false") Login
+                                    a(href="register" v-if="isLoggedin == false") Signup
+
+block content
+
+script(src="javascripts/vue/header.js")

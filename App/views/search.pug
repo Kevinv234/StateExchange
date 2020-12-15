@@ -1,0 +1,22 @@
+extends header
+
+block content
+    #app
+
+        .layout-body
+            h1 Results for: {{showing}} 
+            .results
+                div(class="results__post" v-for="post in posts")
+                    div(class="results__post--img" v-bind:style="{ backgroundImage: 'url(' + post.image_name + ')' }")
+                    .results__post--body
+                        h3.results__post--title {{post.Name}}
+                        p.results__post--category {{post.Category}}
+                        p.results__post--comment {{trimComment(post.Comment)}}
+
+                    .results__post--data
+                        p.results__post--price ${{post.Price}}
+                        .results__post--button Contact Seller
+
+    script(src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js")
+    script(src="https://unpkg.com/axios/dist/axios.min.js")
+    script(src="javascripts/vue/search.js")

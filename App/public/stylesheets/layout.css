@@ -1,0 +1,182 @@
+/****************************************************************************
+This css file is used only for styling basic layout elemnts. It divides the page 
+into sections and holds modules together.
+*****************************************************************************/
+
+#app{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.layout-header{
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 30px;
+
+    color: white;
+    background: URL("/images/Banner-wide.png");
+    background-size: cover;
+}
+
+.layout-body{
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 1295px;
+    align-self: center;
+    padding: 5px 35px;
+}
+
+.layout-form,
+.layout-form--auth{
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 1000px;
+    align-self: center;
+    padding: 5px 35px;
+}
+.layout-form--auth{
+    max-width: 700px;
+}
+
+.banner{
+    flex-shrink: 0;
+
+    display: grid;
+    grid-template-rows: 30px 1fr ;
+    justify-items: center;
+
+    width: 100%;
+    height: 200px;
+    padding: 5px 20px 10px 20px;
+
+    background: url('../images/icons/banner-bg.png');
+    background-size: 800px;
+    background-position: center center;
+    background-color: var(--yellow);
+    border-radius: var(--border-radius);
+
+    color: white;
+}
+
+.disclaimer{
+    color: white;
+    font-family: var(--main-header-font);
+    font-size: 20px;
+    text-align: center;
+}
+
+.banner__content{
+    align-self: end;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    max-width: 1295px;
+}
+.banner__content--div{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.banner__content--icon{
+    height: 100px;
+}
+.banner__content--desc{
+    color: white;
+    font-size: 20px;
+    font-family: var(--main-header-font);
+}
+.center{
+    border-right: 3px solid white;
+    border-left: 3px solid white;
+}
+
+.layout-footer{
+    flex-shrink: 0;
+
+    width: 100%;
+    height: 70px;
+    margin-top: 100px;
+
+    background-color: var(--purple);
+}
+
+
+
+
+
+@media only screen and (max-width: 1330px){
+    .layout-body{
+        max-width: 1115px;
+    }
+}
+
+@media only screen and (max-width: 1125px){
+    .layout-body,
+    .layout-form{
+        max-width: 910px;
+    }
+}
+
+@media only screen and (max-width: 910px){
+    .layout-body,
+    .layout-form{
+        max-width: 800px;
+    }
+}
+
+@media only screen and (max-width: 800px){
+    .layout-body,
+    .layout-form{
+        max-width: 695px;
+    }
+
+    .banner{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 695px){
+    .layout-body,
+    .layout-form{
+        max-width: 480px;
+    }
+
+    .layout-form,
+    .layout-form--auth{
+        max-width: 100%;
+        padding: 5px 3px;
+    }
+}
+
+@media only screen and (max-width: 480px){
+    .layout-body{
+        max-width: 315px;
+    }
+}
+
+.table {
+    width: 100%;
+    border: 1px solid #000000;
+    border-collapse: collapse;
+}
+
+.table td {
+    border: 1px solid #000000;
+    border-collapse: collapse;
+}
